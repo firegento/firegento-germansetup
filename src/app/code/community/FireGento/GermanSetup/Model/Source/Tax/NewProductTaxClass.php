@@ -72,22 +72,7 @@ class FireGento_GermanSetup_Model_Source_Tax_NewProductTaxClass
      */
     public function getAllOptions()
     {
-        if (!sizeof($this->_options)) {
-            $taxClasses = $this->_getConfigNode('tax_classes', 'default');
-            foreach ($taxClasses as $taxClass) {
-                if ($taxClass['class_type'] != 'PRODUCT' || $taxClass['execute'] != 1) {
-                     continue;
-                }
-
-                $this->_options[] = array(
-                    'value' => $taxClass['class_id'],
-                    'label' => $taxClass['class_name'],
-                );
-            }
-            array_unshift($this->_options, array('value' => '', 'label' =>''));
-        }
-
-        return $this->_options;
+        return $this->toOptionArray();
     }
 
     /**
