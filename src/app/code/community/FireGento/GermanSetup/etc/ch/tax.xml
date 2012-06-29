@@ -54,14 +54,14 @@
                     <products_8_percent>
                         <execute>1</execute>
                         <class_id>1</class_id>
-                        <class_name>Umsatzsteuerpflichtige Güter 8%</class_name>
+                        <class_name>Regulärer Steuersatz</class_name>
                         <class_type>PRODUCT</class_type>
                         <default>1</default>
                     </products_8_percent>
                     <products_25_percent>
                         <execute>1</execute>
                         <class_id>2</class_id>
-                        <class_name>Umsatzsteuerpflichtige Güter 2.5%</class_name>
+                        <class_name>Ermässigter Steuersatz</class_name>
                         <class_type>PRODUCT</class_type>
                         <default>0</default>
                     </products_25_percent>
@@ -74,7 +74,7 @@
                     <shipping>
                         <execute>1</execute>
                         <class_id>4</class_id>
-                        <class_name>Versand</class_name>
+                        <class_name>Versandsteuersatz</class_name>
                         <class_type>PRODUCT</class_type>
                         <default>0</default>
                     </shipping>

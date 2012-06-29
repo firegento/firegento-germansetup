@@ -54,14 +54,14 @@
                     <products_20_percent>
                         <execute>1</execute>
                         <class_id>1</class_id>
-                        <class_name>Umsatzsteuerpflichtige Güter 20%</class_name>
+                        <class_name>Regulärer Steuersatz</class_name>
                         <class_type>PRODUCT</class_type>
                         <default>1</default>
                     </products_20_percent>
                     <products_10_percent>
                         <execute>1</execute>
                         <class_id>2</class_id>
-                        <class_name>Umsatzsteuerpflichtige Güter 10%</class_name>
+                        <class_name>Ermäßigter Steuersatz</class_name>
                         <class_type>PRODUCT</class_type>
                         <default>0</default>
                     </products_10_percent>
@@ -74,7 +74,7 @@
                     <shipping>
                         <execute>1</execute>
                         <class_id>4</class_id>
-                        <class_name>Versand</class_name>
+                        <class_name>Versandsteuersatz</class_name>
                         <class_type>PRODUCT</class_type>
                         <default>0</default>
                     </shipping>
