@@ -84,6 +84,13 @@
             </catalog_product_save_before>
         </events>
     </global>
+    <phpunit>
+        <suite>
+            <modules>
+                <FireGento_GermanSetup/>
+            </modules>
+        </suite>
+    </phpunit>
     <frontend>
         <secure_url>
             <contacts>/contacts/</contacts>
