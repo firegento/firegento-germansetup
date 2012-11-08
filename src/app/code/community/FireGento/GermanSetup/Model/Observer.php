@@ -279,4 +279,16 @@ class FireGento_GermanSetup_Model_Observer
         }
     }
 
+    public function addProductAttributesToCheckout(Varien_Event_Observer $observer)
+    {
+        $attributes = $observer->getEvent()->getData('attributes');
+        /* @var $helper FireGento_GermanSetup_Helper_Checkout_Data */
+        $helper = Mage::helper('germansetup/checkout_data');
+        foreach ($helper->getAddtionalAttributes() as $checkoutAttribute) {
+            $attributes[$checkoutAttribute->getAttributeCode()] = $checkoutAttribute;
+        }
+        $observer->getEvent()->setData('attributes', $attributes);
+        return $this;
+    }
+
 }

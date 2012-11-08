@@ -43,11 +43,11 @@
             <germansetup>
                 <class>FireGento_GermanSetup_Helper</class>
             </germansetup>
-            <catalog>
+            <!--<catalog>
                 <rewrite>
                     <product_configuration>FireGento_GermanSetup_Helper_Catalog_Product_Configuration</product_configuration>
                 </rewrite>
-            </catalog>
+            </catalog>-->
             <checkout>
                 <rewrite>
                     <data>FireGento_GermanSetup_Helper_Checkout_Data</data>
@@ -82,6 +82,15 @@
                     </germansetup_observer>
                 </observers>
             </catalog_product_save_before>
+            <sales_quote_config_get_product_attributes>
+                <observers>
+                    <germansetup_observer_checkout_attributes>
+                        <class>germansetup/observer</class>
+                        <type>model</type>
+                        <method>addProductAttributesToCheckout</method>
+                    </germansetup_observer_checkout_attributes>
+                </observers>
+            </sales_quote_config_get_product_attributes>
         </events>
     </global>
     <frontend>

@@ -146,6 +146,7 @@
         </reference>
         <reference name="root">
             <action method="unsetChild"><alias>agreements</alias></action>
+
         </reference>
         <reference name="checkout.onepage.review.info.items.before">
             <action method="insert"><blockName>checkout.onepage.agreements</blockName></action>
@@ -154,6 +155,12 @@
             <block type="germansetup/checkout_information" name="checkout.onepage.additional" as="additional" template="germansetup/checkout/additional.phtml" />
         </reference>
     </checkout_onepage_review>
+
+    <checkout_cart_index>
+        <reference name="additional.product.info">
+            <block type="core/template" name="addtional.product.checkout.attributes" template="germansetup/checkout/cart/item/additional.phtml" />
+        </reference>
+    </checkout_cart_index>
 
     <checkout_multishipping_overview>
         <reference name="head">
