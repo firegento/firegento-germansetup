@@ -122,6 +122,12 @@
         </reference>
     </catalog_product_view>
 
+    <checkout_cart_index>
+        <reference name="additional.product.info">
+            <block type="core/template" name="additional.product.checkout.attributes" template="germansetup/checkout/cart/item/additional.phtml" />
+        </reference>
+    </checkout_cart_index>
+
 	<!--
 	Changes for Button Loesung
 	-->
@@ -146,7 +152,9 @@
         </reference>
         <reference name="root">
             <action method="unsetChild"><alias>agreements</alias></action>
-
+            <block type="core/text_list" name="additional.product.info">
+                <block type="core/template" name="additional.product.checkout.attributes" template="germansetup/checkout/cart/item/additional.phtml" />
+            </block>
         </reference>
         <reference name="checkout.onepage.review.info.items.before">
             <action method="insert"><blockName>checkout.onepage.agreements</blockName></action>
@@ -156,12 +164,6 @@
         </reference>
     </checkout_onepage_review>
 
-    <checkout_cart_index>
-        <reference name="additional.product.info">
-            <block type="core/template" name="addtional.product.checkout.attributes" template="germansetup/checkout/cart/item/additional.phtml" />
-        </reference>
-    </checkout_cart_index>
-
     <checkout_multishipping_overview>
         <reference name="head">
             <action method="addCss"><stylesheet>css/germansetup/checkout.css</stylesheet></action>
@@ -170,6 +172,9 @@
 			<action method="setTemplate"><name>germansetup/checkout/multishipping/overview.phtml</name></action>
             <action method="unsetChild"><name>agreements</name></action>
             <block type="checkout/agreements" name="checkout.multishipping.agreements" as="agreements" template="germansetup/checkout/multishipping/agreements.phtml" />
+            <block type="core/text_list" name="additional.product.info">
+                <block type="core/template" name="additional.product.checkout.attributes" template="germansetup/checkout/cart/item/additional.phtml" />
+            </block>
         </reference>
         <reference name="checkout.multishipping.overview.items.after">
             <block type="germansetup/checkout_information" name="checkout.multishipping.additional" as="additional" template="germansetup/checkout/additional.phtml" />

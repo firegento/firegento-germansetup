@@ -61,11 +61,34 @@ class FireGento_GermanSetup_Helper_Checkout_Data
      *
      * @return Mage_Eav_Model_Resource_Attribute_Collection
      */
-    public function getAddtionalAttributes() {
+    public function getAddtionalAttributes()
+    {
         /* @var $checkoutAttributes Mage_Eav_Model_Resource_Attribute_Collection */
         $checkoutAttributes = Mage::getSingleton('eav/config')
             ->getEntityType(Mage_Catalog_Model_Product::ENTITY)->getAttributeCollection();
         $checkoutAttributes->addFieldToFilter('is_visible_on_checkout', 1);
         return $checkoutAttributes;
+    }
+
+    /**
+     * Get the attribute frontend value.
+     *
+     * @param $_item Mage_Sales_Model_Quote_Item
+     * @param $_attribute Mage_Eav_Model_Attribute
+     * @return mixed
+     */
+    public function getAttributeValue($_item, $_attribute)
+    {
+        $attribute_value = "";
+        switch ($_attribute->getFrontendInput()) {
+            case 'select':
+            case 'multiselect':
+                $attribute_value = $_item->getProduct()->getAttributeText($_attribute->getAttributeCode());
+                break;
+            default:
+                $attribute_value = $_item->getProduct()->getData($_attribute->getAttributeCode());
+                break;
+        }
+        return $attribute_value;
     }
 }

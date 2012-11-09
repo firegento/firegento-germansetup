@@ -22,16 +22,14 @@
  */
 /** @var $this Mage_Core_Block_Template */
 ?>
-<?php $_item = $this->getParentBlock()->getItem() ?>
-<?php if ($_attributes = Mage::helper('germansetup/checkout_data')->getAddtionalAttributes()):?>
+<?php $_item = $this->getParentBlock()->getItem(); ?>
+<?php if ($_item && $_attributes = $this->helper('germansetup/checkout_data')->getAddtionalAttributes()): ?>
 <div class="additional-information">
     <dl class="item-options">
         <?php foreach ($_attributes as $_attribute) : ?>
-        <dt><?php echo $this->htmlEscape($_attribute->getAttributeLabel()) ?></dt>
-         <?php $attribute_value = $_attribute->getFrontendInput() == 'select' ? $_item->getProduct()->getAttributeText($_attribute->getAttributeCode()) : $_item->getProduct()->getData($_attribute->getAttributeCode())?>
-        <dd class="truncated"><?php echo $this->escapeHtml($attribute_value) ?></dd>
+        <dt><?php echo $this->escapeHtml($_attribute->getAttributeLabel()) ?></dt>
+        <dd class="truncated"><?php echo $this->escapeHtml($this->helper('germansetup/checkout_data')->getAttributeValue($_item,$_attribute)); ?></dd>
         <?php endforeach; ?>
     </dl>
 </div>
 <?php endif;?>
-
