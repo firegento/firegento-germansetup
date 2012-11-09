@@ -43,11 +43,6 @@
             <germansetup>
                 <class>FireGento_GermanSetup_Helper</class>
             </germansetup>
-            <!--<catalog>
-                <rewrite>
-                    <product_configuration>FireGento_GermanSetup_Helper_Catalog_Product_Configuration</product_configuration>
-                </rewrite>
-            </catalog>-->
             <checkout>
                 <rewrite>
                     <data>FireGento_GermanSetup_Helper_Checkout_Data</data>
