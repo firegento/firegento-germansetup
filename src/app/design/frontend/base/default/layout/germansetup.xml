@@ -169,15 +169,19 @@
             <action method="addCss"><stylesheet>css/germansetup/checkout.css</stylesheet></action>
         </reference>
         <reference name="checkout_overview">
-			<action method="setTemplate"><name>germansetup/checkout/multishipping/overview.phtml</name></action>
+            <action method="addItemRender"><type>default</type><block>checkout/cart_item_renderer</block><template>germansetup/checkout/multishipping/item/default.phtml</template></action>
+            <action method="addItemRender"><type>grouped</type><block>checkout/cart_item_renderer_grouped</block><template>germansetup/checkout/multishipping/item/default.phtml</template></action>
+            <action method="addItemRender"><type>configurable</type><block>checkout/cart_item_renderer_configurable</block><template>germansetup/checkout/multishipping/item/default.phtml</template></action>
+            <action method="setTemplate"><name>germansetup/checkout/multishipping/overview.phtml</name></action>
             <action method="unsetChild"><name>agreements</name></action>
             <block type="checkout/agreements" name="checkout.multishipping.agreements" as="agreements" template="germansetup/checkout/multishipping/agreements.phtml" />
             <block type="core/text_list" name="additional.product.info">
                 <block type="core/template" name="additional.product.checkout.attributes" template="germansetup/checkout/cart/item/additional.phtml" />
             </block>
+            <reference name="checkout.multishipping.overview.items.after">
+                <block type="germansetup/checkout_information" name="checkout.multishipping.additional" as="additional" template="germansetup/checkout/additional.phtml" />
+            </reference>
         </reference>
-        <reference name="checkout.multishipping.overview.items.after">
-            <block type="germansetup/checkout_information" name="checkout.multishipping.additional" as="additional" template="germansetup/checkout/additional.phtml" />
-        </reference>
+
     </checkout_multishipping_overview>
 </layout>
