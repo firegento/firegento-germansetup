@@ -27,7 +27,7 @@
  */
 ?>
 <?php if (strlen(trim($this->getTelephone()))): ?>
-    <?php echo $this->__('Telephone') ?>: <?php echo $this->getTelephone() ?><br />
+    <?php echo $this->__('Telephone') ?>: <a href="tel:<?php echo $this->getTelephone() ?>" title="<?php echo $this->getTelephone() ?>"><?php echo $this->getTelephone() ?></a><br />
 <?php endif ?>
 <?php if (strlen(trim($this->getFax()))): ?>
 <?php echo $this->__('Fax') ?>: <?php echo $this->getFax() ?><br />
