@@ -49,5 +49,9 @@
     	<span class="tax-details"><?php echo $this->__('Excl. %s Tax', $this->getFormattedTaxRate()) ?></span>
     <?php elseif ($this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX): ?>
     	<span class="tax-details"><?php echo $this->__('Incl. %s Tax', $this->getFormattedTaxRate()) ?></span>
+    <?php elseif ($this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH): ?>
+        <?php if (!$this->getIsIncludingShippingCosts()): ?>
+            <span class="tax-details"><?php echo $this->__('plus <a href="%s">Shipping Cost</a>', $shippingCostUrl) ?></span>
+        <?php endif ?>
     <?php endif ?>
 <?php endif ?>
