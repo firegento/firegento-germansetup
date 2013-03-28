@@ -50,6 +50,7 @@ class FireGento_GermanSetup_Block_Bundle_Catalog_Product_Price
 
         $html .= $this->getLayout()->createBlock('core/template')
             ->setTemplate('germansetup/price_info.phtml')
+            ->setTaxRate($this->getTaxRate())
             ->setFormattedTaxRate($this->getFormattedTaxRate())
             ->setIsIncludingTax($this->isIncludingTax())
             ->setIsShowShippingLink($this->isShowShippingLink())
