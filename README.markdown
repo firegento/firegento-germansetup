@@ -24,7 +24,7 @@ GermanSetup ist eine deutlich verbesserte Alternative zu bereits existierenden M
 
 * Button-Lösung
 * Setzen wichtiger Konfigurationseinstellungen
-* Steuereinstellungen und Steuerklassen für die ganze EU
+* Steuereinstellungen und Steuerklassen für die ganze EU (für Versand aus Deutschland, also deutsche Steuersätze)
 * Direkte Zuweisung der neuen Steuerklassen zu allen Produkten (konfigurierbar)
 * Integration deutscher E-Mail-Vorlagen
 * Aktivierung von Bestellbedingungen
@@ -69,7 +69,7 @@ Licence
 
 Copyright
 ---------
-(c) 2012 FireGento Team
+(c) 2012-2013 FireGento Team
 
 Erläuternde Blogeinträge
 ------------------------
