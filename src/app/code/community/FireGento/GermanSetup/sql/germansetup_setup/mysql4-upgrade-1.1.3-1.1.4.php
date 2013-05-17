@@ -21,7 +21,7 @@
  * @since     1.0.7
  */
 /**
- * Setup script; Adds the is_required field for the checkout agreements
+ * Setup script; Adds a new table for newsletter subscriber status
  *
  * @category  FireGento
  * @package   FireGento_GermanSetup
@@ -46,7 +46,7 @@ if (version_compare(Mage::getVersion(), '1.6', '<')) {
           `status` int(11) NOT NULL DEFAULT '0' COMMENT 'Subscriber Status',
           `email` text COMMENT 'Subscriber Status',
           `created_at` timestamp NULL DEFAULT NULL COMMENT 'Changed at',
-          PRIMARY KEY (`id`),
+          PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Newsletter Subscriber Status Table';
     ");
 
