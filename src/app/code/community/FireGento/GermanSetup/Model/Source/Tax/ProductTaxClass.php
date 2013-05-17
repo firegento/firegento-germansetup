@@ -21,7 +21,7 @@
  * @since     0.1.0
  */
 /**
- * Setup script; Adds the delivery_time attribute for products
+ * Tax Source model for new tax classes, possibly not created yet
  *
  * @category  FireGento
  * @package   FireGento_GermanSetup
@@ -29,33 +29,31 @@
  * @copyright 2012 FireGento Team (http://www.firegento.de). All rights served.
  * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
  * @version   $Id:$
- * @since     0.1.0
+ * @since     1.2.0
  */
+class FireGento_GermanSetup_Model_Source_Tax_ProductTaxClass extends Mage_Tax_Model_Class_Source_Product
+{
+    public function getAllOptions($withEmpty = false)
+    {
+        $options = parent::getAllOptions($withEmpty);
 
-/* @var $installer Mage_Eav_Model_Entity_Setup */
-$installer = $this;
-$installer->startSetup();
+        foreach ($options as $optionKey => $option) {
 
-$installer->addAttribute(
-    'catalog_product',
-    'delivery_time',
-    array(
-        'label'                      => 'Lieferzeit',
-        'input'                      => 'text',
-        'required'                   => 0,
-        'user_defined'               => 1,
-        'default'                    => '2-3 Tage',
-        'group'                      => 'General',
-        'global'                     => Mage_Catalog_Model_Resource_Eav_Attribute::SCOPE_STORE,
-        'visible'                    => 1,
-        'filterable'                 => 0,
-        'searchable'                 => 0,
-        'comparable'                 => 1,
-        'visible_on_front'           => 1,
-        'visible_in_advanced_search' => 1,
-        'used_in_product_listing'    => 1,
-        'is_html_allowed_on_front'   => 1,
-    )
-);
+            if (intval($option['value']) <= 0) {
+                continue;
+            }
 
-$installer->endSetup();
+            /** @var $productCollection Mage_Catalog_Model_Resource_Product_Collection */
+            $productCollection = Mage::getModel('catalog/product')
+                ->getCollection()
+                ->addAttributeToFilter('tax_class_id', $option['value'])
+                ->setPageSize(1);
+
+            if (!$productCollection->getSize()) {
+                unset($options[$optionKey]);
+            }
+        }
+
+        return $options;
+    }
+}
