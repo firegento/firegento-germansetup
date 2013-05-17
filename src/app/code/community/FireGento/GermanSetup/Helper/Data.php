@@ -62,4 +62,30 @@ class FireGento_GermanSetup_Helper_Data extends Mage_Core_Helper_Abstract
     {
         return Mage::getUrl('germansetup/frontend/agreements', array('id' => $agreement->getId()));
     }
+
+
+    /**
+     * Same as the __ function, but the supplied text can contain a list of possible translations, sepearted with |
+     * The actual translation is chosen by the $index parameter.
+     *
+     * Translation is applied first, then the text is chosen.
+     *
+     * If the index is not found, the first translation is applied
+     *
+     * @param     $text Text (English, with |)
+     * @param int $index 0 based index
+     * @param variable vsprintf args
+     *
+     * @return string translated text
+     */
+    public function indexTranslate($text, $index = 0)
+    {
+        $texts = explode('|', $this->__($text));
+        $text = isset($texts[$index]) ? $texts[$index] : $texts[0];
+        $args = func_get_args();
+        array_shift($args);
+        array_shift($args);
+        return @vsprintf($text, $args);
+    }
+
 }
