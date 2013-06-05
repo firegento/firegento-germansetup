@@ -21,7 +21,7 @@
  * @since     0.1.0
  */
 /**
- * Tax Source model for new tax classes, possibly not created yet
+ * Setup script; Adds the delivery_time attribute for products
  *
  * @category  FireGento
  * @package   FireGento_GermanSetup
@@ -29,31 +29,61 @@
  * @copyright 2012 FireGento Team (http://www.firegento.de). All rights served.
  * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
  * @version   $Id:$
- * @since     1.2.0
+ * @since     0.1.0
  */
-class FireGento_GermanSetup_Model_Source_Tax_ProductTaxClass extends Mage_Tax_Model_Class_Source_Product
-{
-    public function getAllOptions($withEmpty = false)
-    {
-        $options = parent::getAllOptions($withEmpty);
 
-        foreach ($options as $optionKey => $option) {
+/** @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+$installer = $this;
+$installer->startSetup();
 
-            if (intval($option['value']) <= 0) {
-                continue;
-            }
+// Update attribute properties
+$installer->updateAttribute(
+    'catalog_product',
+    'delivery_time',
+    'is_comparable',
+    true
+);
 
-            /** @var $productCollection Mage_Catalog_Model_Resource_Product_Collection */
-            $productCollection = Mage::getModel('catalog/product')
-                ->getCollection()
-                ->addAttributeToFilter('tax_class_id', $option['value'])
-                ->setPageSize(1);
+$installer->updateAttribute(
+    'catalog_product',
+    'delivery_time',
+    'is_visible_on_front',
+    true
+);
 
-            if (!$productCollection->getSize()) {
-                unset($options[$optionKey]);
-            }
-        }
+$installer->updateAttribute(
+    'catalog_product',
+    'delivery_time',
+    'is_visible_in_advanced_search',
+    true
+);
 
-        return $options;
-    }
-}
+$installer->updateAttribute(
+    'catalog_product',
+    'delivery_time',
+    'used_in_product_listing',
+    true
+);
+
+$installer->updateAttribute(
+    'catalog_product',
+    'delivery_time',
+    'is_html_allowed_on_front',
+    true
+);
+
+$installer->updateAttribute(
+    'catalog_product',
+    'delivery_time',
+    'is_visible_on_checkout',
+    true
+);
+
+$installer->updateAttribute(
+    'catalog_product',
+    'short_description',
+    'is_visible_on_checkout',
+    true
+);
+
+$installer->endSetup();

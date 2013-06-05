@@ -21,7 +21,7 @@
  * @since     0.1.0
  */
 /**
- * Tax Source model for new tax classes, possibly not created yet
+ * Checkout Agreements
  *
  * @category  FireGento
  * @package   FireGento_GermanSetup
@@ -29,31 +29,27 @@
  * @copyright 2012 FireGento Team (http://www.firegento.de). All rights served.
  * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
  * @version   $Id:$
- * @since     1.2.0
+ * @since     0.1.0
  */
-class FireGento_GermanSetup_Model_Source_Tax_ProductTaxClass extends Mage_Tax_Model_Class_Source_Product
-{
-    public function getAllOptions($withEmpty = false)
-    {
-        $options = parent::getAllOptions($withEmpty);
 
-        foreach ($options as $optionKey => $option) {
+/**
+ * @var $this Mage_Checkout_Block_Agreements
+ */
 
-            if (intval($option['value']) <= 0) {
-                continue;
-            }
+/* @var $helper FireGento_GermanSetup_Helper_Data */
+$helper = $this->helper('germansetup');
+?>
 
-            /** @var $productCollection Mage_Catalog_Model_Resource_Product_Collection */
-            $productCollection = Mage::getModel('catalog/product')
-                ->getCollection()
-                ->addAttributeToFilter('tax_class_id', $option['value'])
-                ->setPageSize(1);
+<?php if (!$this->getAgreements()) return; ?>
 
-            if (!$productCollection->getSize()) {
-                unset($options[$optionKey]);
-            }
-        }
-
-        return $options;
-    }
-}
+<?php foreach ($this->getAgreements() as $_a): ?>
+<li class="control">
+    <p class="agree">
+        <?php if( $_a->getIsRequired() ): ?>
+            <input type="checkbox" id="agreement-<?php echo $_a->getId()?>" name="agreement[<?php echo $_a->getId()?>]" value="1" title="<?php echo $this->htmlEscape( $_a->getCheckboxText() ) ?>" class="checkbox required-entry"/>
+        <?php endif; ?>
+        <label <?php if( $_a->getIsRequired() ): ?>for="agreement-<?php echo $_a->getId()?>"<?php endif; ?> style="float:none;"><?php echo $_a->getIsHtml() ? $_a->getCheckboxText() : $this->htmlEscape( $_a->getCheckboxText() ) ?></label>
+        <a href="<?php echo $helper->getAgreementUrl( $_a ) ?>" onclick="window.open(this.href, '', 'width=600,height=600,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes').focus(); return false;"><?php echo $this->__( '[Show]' ) ?></a>
+    </p>
+</li>
+<?php endforeach ?>

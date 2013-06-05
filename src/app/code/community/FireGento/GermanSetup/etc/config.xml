@@ -25,7 +25,7 @@
 <config>
     <modules>
         <FireGento_GermanSetup>
-            <version>1.1.4</version>
+            <version>1.2.3</version>
         </FireGento_GermanSetup>
     </modules>
     <global>
@@ -77,7 +77,7 @@
             <germansetup_setup>
                 <setup>
                     <module>FireGento_GermanSetup</module>
-                    <class>Mage_Eav_Model_Entity_Setup</class>
+                    <class>Mage_Catalog_Model_Resource_Eav_Mysql4_Setup</class>
                 </setup>
             </germansetup_setup>
         </resources>
@@ -141,6 +141,15 @@
                     </recalculate_dynamic_shipping_tax>
                 </observers>
             </checkout_cart_update_items_after>
+            <controller_action_predispatch_customer_account_createpost>
+                <observers>
+                    <germansetup_observer>
+                        <class>germansetup/observer</class>
+                        <type>model</type>
+                        <method>customerCreatePreDispatch</method>
+                    </germansetup_observer>
+                </observers>
+            </controller_action_predispatch_customer_account_createpost>
         </events>
         <routers>
             <germansetup>
@@ -222,7 +231,7 @@
                     <germansetup_observer_agreement>
                         <class>germansetup/observer</class>
                         <type>model</type>
-                        <method>addIsRequiredOnAgreements</method>
+                        <method>addOptionsForAgreements</method>
                     </germansetup_observer_agreement>
                 </observers>
             </adminhtml_block_html_before>
@@ -243,7 +252,9 @@
         <catalog>
             <price>
                 <display_block_below_price>1</display_block_below_price>
+                <display_delivery_time_on_categories>1</display_delivery_time_on_categories>
                 <cms_page_shipping>lieferung</cms_page_shipping>
+                <weight_unit>kg</weight_unit>
             </price>
         </catalog>
         <general>
@@ -258,10 +269,15 @@
         </general>
         <checkout>
             <options>
-                <additional_information><![CDATA[Zusätzlich können noch Kosten oder Steuern anfallen, die nicht über uns abgeführt bzw. von uns in Rechnung gestellt werden.]]></additional_information>
-            </options>
+                <additional_information><![CDATA[Beim Versand ins Nicht-EU-Ausland können zusätzlich Zölle, Steuern und Gebühren entstehen.]]></additional_information></options>
+            <cart>
+                <hide_shipping>1</hide_shipping>
+            </cart>
         </checkout>
         <customer>
+            <create_account>
+                <avoid_tc>Yes</avoid_tc>
+            </create_account>
             <address_templates>
                 <text><![CDATA[
 {{depend company}}{{var company}}
@@ -276,7 +292,8 @@ Tel: {{var telephone}}
 {{depend fax}}Fax: {{var fax}}
 {{/depend}}
                 ]]></text>
-                <oneline><![CDATA[{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, {{var street}}, {{var postcode}} {{var city}}, {{var country}}]]></oneline>
+                <oneline>
+                    <![CDATA[{{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}, {{var street}}, {{var postcode}} {{var city}}, {{var country}}]]></oneline>
                 <html><![CDATA[
 {{depend company}}{{var company}}<br />{{/depend}}
 {{depend prefix}}{{var prefix}} {{/depend}}{{var firstname}} {{depend middlename}}{{var middlename}} {{/depend}}{{var lastname}}{{depend suffix}} {{var suffix}}{{/depend}}<br/>
@@ -304,7 +321,8 @@ Tel: {{var telephone}}
                 ]]></pdf>
                 <js_template template="title" module="customer">
                     <title>Javascript Template</title>
-                    <defaultFormat><![CDATA[#{company}<br/>#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}<br/>#{street0}<br/>#{street1}<br/>#{street2}<br/>#{street3}<br/>#{postcode} #{city}<br/>#{country_id}<br/>Tel: #{telephone}<br/>Fax: #{fax}]]>
+                    <defaultFormat>
+                        <![CDATA[#{company}<br/>#{prefix} #{firstname} #{middlename} #{lastname} #{suffix}<br/>#{street0}<br/>#{street1}<br/>#{street2}<br/>#{street3}<br/>#{postcode} #{city}<br/>#{country_id}<br/>Tel: #{telephone}<br/>Fax: #{fax}]]>
                     </defaultFormat>
                 </js_template>
             </address_templates>

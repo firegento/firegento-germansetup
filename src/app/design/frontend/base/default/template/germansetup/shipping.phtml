@@ -21,39 +21,26 @@
  * @since     0.1.0
  */
 /**
- * Tax Source model for new tax classes, possibly not created yet
+ * Template for shipping cost link
  *
  * @category  FireGento
  * @package   FireGento_GermanSetup
  * @author    FireGento Team <team@firegento.com>
- * @copyright 2012 FireGento Team (http://www.firegento.de). All rights served.
+ * @copyright 2013 FireGento Team (http://www.firegento.de). All rights served.
  * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
  * @version   $Id:$
  * @since     1.2.0
  */
-class FireGento_GermanSetup_Model_Source_Tax_ProductTaxClass extends Mage_Tax_Model_Class_Source_Product
-{
-    public function getAllOptions($withEmpty = false)
-    {
-        $options = parent::getAllOptions($withEmpty);
 
-        foreach ($options as $optionKey => $option) {
+/**
+ * @var $this Mage_Checkout_Block_Cart_Shipping
+ */
+?>
 
-            if (intval($option['value']) <= 0) {
-                continue;
-            }
-
-            /** @var $productCollection Mage_Catalog_Model_Resource_Product_Collection */
-            $productCollection = Mage::getModel('catalog/product')
-                ->getCollection()
-                ->addAttributeToFilter('tax_class_id', $option['value'])
-                ->setPageSize(1);
-
-            if (!$productCollection->getSize()) {
-                unset($options[$optionKey]);
-            }
-        }
-
-        return $options;
-    }
-}
+<?php $shippingCostUrl = Mage::helper( 'germansetup' )->getShippingCostUrl() ?>
+<?php if( !empty( $shippingCostUrl )): ?>
+<div class="shipping">
+    <h2><?php echo $this->__('Shipping Costs') ?></h2>
+    <p><a href="<?php echo $shippingCostUrl ?>"><?php echo $this->__('Here you find information regarding the shipping costs.') ?></a></p>
+</div>
+<?php endif ?>

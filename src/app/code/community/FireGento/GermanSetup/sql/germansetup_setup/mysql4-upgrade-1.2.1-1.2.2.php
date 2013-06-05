@@ -17,11 +17,10 @@
  * @author    FireGento Team <team@firegento.com>
  * @copyright 2012 FireGento Team (http://www.firegento.de). All rights served.
  * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
- * @version   $Id:$
  * @since     0.1.0
  */
 /**
- * Tax Source model for new tax classes, possibly not created yet
+ * Setup script; Adds the is_required field for the checkout agreements
  *
  * @category  FireGento
  * @package   FireGento_GermanSetup
@@ -29,31 +28,33 @@
  * @copyright 2012 FireGento Team (http://www.firegento.de). All rights served.
  * @license   http://opensource.org/licenses/gpl-3.0 GNU General Public License, version 3 (GPLv3)
  * @version   $Id:$
- * @since     1.2.0
+ * @since     1.2.2
  */
-class FireGento_GermanSetup_Model_Source_Tax_ProductTaxClass extends Mage_Tax_Model_Class_Source_Product
-{
-    public function getAllOptions($withEmpty = false)
-    {
-        $options = parent::getAllOptions($withEmpty);
 
-        foreach ($options as $optionKey => $option) {
+/** @var $installer Mage_Catalog_Model_Resource_Eav_Mysql4_Setup */
+$installer = $this;
+$installer->startSetup();
 
-            if (intval($option['value']) <= 0) {
-                continue;
-            }
+if (version_compare(Mage::getVersion(), '1.6', '<')) {
 
-            /** @var $productCollection Mage_Catalog_Model_Resource_Product_Collection */
-            $productCollection = Mage::getModel('catalog/product')
-                ->getCollection()
-                ->addAttributeToFilter('tax_class_id', $option['value'])
-                ->setPageSize(1);
+    $installer->run("
+        ALTER TABLE `{$installer->getTable('checkout/agreement')}`
+        ADD `agreement_type` SMALLINT( 5 ) NOT NULL DEFAULT '0' COMMENT 'Agreement Type'
+    ");
 
-            if (!$productCollection->getSize()) {
-                unset($options[$optionKey]);
-            }
-        }
+} else {
 
-        return $options;
-    }
+    $installer->getConnection()->addColumn(
+            $installer->getTable('checkout/agreement'),
+            'agreement_type',
+            array(
+                'type'      => Varien_Db_Ddl_Table::TYPE_SMALLINT,
+                'unsigned'  => true,
+                'nullable'  => false,
+                'default'   => '0',
+                'comment'   => 'Agreement Type'
+            )
+        );
 }
+
+$installer->endSetup();
