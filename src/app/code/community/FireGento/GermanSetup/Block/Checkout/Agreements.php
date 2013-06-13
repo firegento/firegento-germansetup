@@ -43,6 +43,11 @@ class FireGento_GermanSetup_Block_Checkout_Agreements extends Mage_Checkout_Bloc
     public function getAgreements()
     {
         $agreements = parent::getAgreements();
+
+		if (!is_object($agreements) || method_exists($agreements, 'addFieldToFilter')) {
+			return $agreements;
+		}
+
         if ($this->_getCustomerSession()->isLoggedIn()) {
             $agreements->addFieldToFilter('agreement_type', array('in' => array(
                 FireGento_GermanSetup_Model_Source_AgreementType::AGREEMENT_TYPE_CHECKOUT,
