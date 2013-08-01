@@ -44,6 +44,7 @@
 <?php
     $texts = $this->getInfoTexts();
 ?>
+<span class="price-info">
 <?php
     $firstLoop = true;
     foreach($texts as $key => $text):
@@ -56,3 +57,4 @@
         $firstLoop = false;
     endforeach
 ?>
+</span>
