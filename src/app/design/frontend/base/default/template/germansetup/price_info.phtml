@@ -44,6 +44,7 @@
 <?php
     $texts = $this->getInfoTexts();
 ?>
+<span class="price-info">
 <?php
     $firstLoop = true;
     foreach($texts as $key => $text):
@@ -51,8 +52,7 @@
             <span class="<?php echo $key ?>"><?php echo ucfirst($text) ?></span><?php
         else:
             ?><span class="tax-separator">, </span><span class="<?php echo $key ?>"><?php echo $text ?></span><?php endif;
-        ?>
-        <?php
         $firstLoop = false;
     endforeach
 ?>
+</span>
