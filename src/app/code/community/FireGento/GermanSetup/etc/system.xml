@@ -31,7 +31,7 @@
                     <show_in_store>1</show_in_store>
                     <fields>
                         <display_block_below_price translate="label,comment" module="germansetup">
-                            <label>Display Block below Price</label>
+                            <label>Display Info Block below Price</label>
                             <comment>Display tax info and shipping cost link below the price on all pages</comment>
                             <frontend_type>select</frontend_type>
                             <source_model>adminhtml/system_config_source_yesno</source_model>
@@ -49,6 +49,16 @@
                             <show_in_website>1</show_in_website>
                             <show_in_store>1</show_in_store>
                         </display_delivery_time_on_categories>
+                        <show_tax_info translate="label,comment" module="germansetup">
+                            <label>Include Tax Info</label>
+                            <comment>Show Tax Info</comment>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_yesno</source_model>
+                            <sort_order>25</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                        </show_tax_info>
                         <cms_page_shipping translate="label" module="germansetup">
                             <label>CMS Page for Shipping Info</label>
                             <frontend_type>select</frontend_type>
