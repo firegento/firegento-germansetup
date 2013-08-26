@@ -220,6 +220,10 @@ class FireGento_GermanSetup_Model_Observer
      */
     protected function _buildKeywords($categoryTypes)
     {
+        if (!$categoryTypes) {
+            return '';
+        }
+
         $keywords = '';
         foreach ($categoryTypes as $categories) {
             $keywords .= implode(', ', $categories);
