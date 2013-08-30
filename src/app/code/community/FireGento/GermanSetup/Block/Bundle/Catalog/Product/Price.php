@@ -36,6 +36,14 @@ class FireGento_GermanSetup_Block_Bundle_Catalog_Product_Price
     extends FireGento_GermanSetup_Block_Bundle_Catalog_Product_Price_Abstract
 {
     /**
+     * @var array Path to common tier price template
+     */
+    protected $_tierPriceDefaultTemplates = array(
+        'catalog/product/view/tierprices.phtml',
+        'dermodpro/bcp/catalog/product/view/tierprices.phtml'
+    );
+
+    /**
      * Add content of template block below price html if defined in config
      *
      * @return string
@@ -48,16 +56,76 @@ class FireGento_GermanSetup_Block_Bundle_Catalog_Product_Price
             return $html;
         }
 
-        $html .= $this->getLayout()->createBlock('core/template')
-            ->setTemplate('germansetup/price_info.phtml')
-            ->setFormattedTaxRate($this->getFormattedTaxRate())
-            ->setIsIncludingTax($this->isIncludingTax())
-            ->setIsShowShippingLink($this->isShowShippingLink())
-            ->setIsShowWeightInfo($this->getIsShowWeightInfo())
-            ->setFormattedWeight($this->getFormattedWeight())
-            ->toHtml();
+        if (!in_array($this->getTemplate(), $this->_tierPriceDefaultTemplates)) {
+            $htmlObject = new Varien_Object();
+            $htmlObject->setParentHtml($html);
+            $htmlTemplate = $this->getLayout()->createBlock('germansetup/catalog_product_price_info')
+                ->setTemplate('germansetup/price_info.phtml')
+                ->setFormattedTaxRate($this->getFormattedTaxRate())
+                ->setIsIncludingTax($this->isIncludingTax())
+                ->setIsIncludingShippingCosts($this->isIncludingShippingCosts())
+                ->setIsShowShippingLink($this->isShowShippingLink())
+                ->setIsShowWeightInfo($this->getIsShowWeightInfo())
+                ->setFormattedWeight($this->getFormattedWeight())
+                ->toHtml();
+            $htmlObject->setHtml($htmlTemplate);
+
+            $this->_addDeliveryTimeHtml($htmlObject);
+
+            Mage::dispatchEvent('germansetup_after_product_price',
+                array(
+                    'html_obj' => $htmlObject,
+                    'block' => $this,
+                )
+            );
+
+            $html = $htmlObject->getPrefix();
+            $html .= $htmlObject->getParentHtml();
+            $html .= $htmlObject->getHtml();
+            $html .= $htmlObject->getSuffix();
+        }
 
         return $html;
+    }
+
+    /**
+     * Add delivery time on category pages only
+     *
+     * @param $htmlObject
+     */
+    protected function _addDeliveryTimeHtml($htmlObject)
+    {
+        if (!Mage::getStoreConfigFlag('catalog/price/display_delivery_time_on_categories')) {
+            return;
+        }
+
+        $pathInfo = Mage::app()->getRequest()->getPathInfo();
+        if (strpos($pathInfo, 'catalog/category/view') !== false
+            || strpos($pathInfo, 'catalogsearch/result') !== false) {
+            if ($this->getProduct()->getDeliveryTime()) {
+                $html = '<p class="delivery-time">';
+                $html .= $this->__('Delivery Time') . ': ' . $this->getProduct()->getDeliveryTime();
+                $html .= '</p>';
+                $htmlObject->setSuffix($html);
+            }
+        }
+    }
+
+    /**
+     * Returns whether or not the price contains taxes
+     *
+     * @return bool
+     */
+    public function isIncludingShippingCosts()
+    {
+        if (!$this->getData('is_including_shipping_costs')) {
+            $this->setData(
+                'is_including_shipping_costs',
+                Mage::getStoreConfig('catalog/price/including_shipping_costs')
+            );
+        }
+
+        return $this->getData('is_including_shipping_costs');
     }
 
     /**
@@ -166,5 +234,19 @@ class FireGento_GermanSetup_Block_Bundle_Catalog_Product_Price
     public function getFormattedWeight()
     {
         return floatval($this->getProduct()->getWeight()) . ' ' . Mage::getStoreConfig('catalog/price/weight_unit');
+    }
+
+    /**
+     * Translate block sentence
+     *
+     * @return string
+     */
+    public function __()
+    {
+        $args = func_get_args();
+        $expr = new Mage_Core_Model_Translate_Expr(array_shift($args), 'Mage_Catalog');
+        array_unshift($args, $expr);
+
+        return Mage::app()->getTranslator()->translate($args);
     }
 }
