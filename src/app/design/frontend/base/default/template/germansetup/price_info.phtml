@@ -35,36 +35,24 @@
 /**
  * @var $this FireGento_GermanSetup_Block_Catalog_Product_Price
  */
+
+/**
+ * Block for price info which is displayed comma-separated
+ */
 ?>
 
-<?php $shippingCostUrl = Mage::helper( 'germansetup' )->getShippingCostUrl() ?>
-<?php if( !empty( $shippingCostUrl ) && $this->getIsShowShippingLink() ): ?>
-    <?php if( $this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX ): ?>
-        <?php if( $this->getIsIncludingShippingCosts() ): ?>
-            <span class="tax-details"><?php echo $this->__( 'Excl. %s Tax', $this->getFormattedTaxRate() ) ?><span class="tax-separator">, </span><span class="shipping-cost-details"><?php echo $this->__( 'incl. <a href="%s">Shipping Cost</a>', $shippingCostUrl ) ?></span></span>
-        <?php else: ?>
-            <span class="tax-details"><?php echo $this->__( 'Excl. %s Tax', $this->getFormattedTaxRate() ) ?><span class="tax-separator">, </span><span class="shipping-cost-details"><?php echo $this->__( 'excl. <a href="%s">Shipping Cost</a>', $shippingCostUrl ) ?></span></span>
-        <?php endif ?>
-    <?php elseif( $this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX ): ?>
-        <?php if( $this->getIsIncludingShippingCosts() ): ?>
-            <span class="tax-details"><?php echo $this->__( 'Incl. %s Tax', $this->getFormattedTaxRate() ) ?><span class="tax-separator">, </span><span class="shipping-cost-details"><?php echo $this->__( 'incl. <a href="%s">Shipping Cost</a>', $shippingCostUrl ) ?></span></span>
-        <?php else: ?>
-            <span class="tax-details"><?php echo $this->__( 'Incl. %s Tax', $this->getFormattedTaxRate() ) ?><span class="tax-separator">, </span><span class="shipping-cost-details"><?php echo $this->__( 'excl. <a href="%s">Shipping Cost</a>', $shippingCostUrl ) ?></span></span>
-        <?php endif ?>
-    <?php elseif( $this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_BOTH ): ?>
-        <?php if( $this->getIsIncludingShippingCosts() ): ?>
-            <span class="tax-details"><?php echo $this->__('incl. <a href="%s">Shipping Cost</a>', $shippingCostUrl) ?></span>
-        <?php else: ?>
-            <span class="tax-details"><?php echo $this->__('excl. <a href="%s">Shipping Cost</a>', $shippingCostUrl) ?></span>
-        <?php endif ?>
-    <?php endif ?>
-    <?php if ($this->getIsShowWeightInfo()): ?>
-        (<?php echo $this->__('Shipping Weight %s', $this->getFormattedWeight()) ?>)
-    <?php endif ?>
-<?php else: ?>
-    <?php if( $this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_EXCLUDING_TAX ): ?>
-		<span class="tax-details"><?php echo $this->__( 'Excl. %s Tax', $this->getFormattedTaxRate() ) ?></span>
-    <?php elseif( $this->getIsIncludingTax() == Mage_Tax_Model_Config::DISPLAY_TYPE_INCLUDING_TAX ): ?>
-		<span class="tax-details"><?php echo $this->__( 'Incl. %s Tax', $this->getFormattedTaxRate() ) ?></span>
-    <?php endif ?>
-<?php endif ?>
+<?php
+    $texts = $this->getInfoTexts();
+?>
+<span class="price-info">
+<?php
+    $firstLoop = true;
+    foreach($texts as $key => $text):
+        if ($firstLoop): ?>
+            <span class="<?php echo $key ?>"><?php echo ucfirst($text) ?></span><?php
+        else:
+            ?><span class="tax-separator">, </span><span class="<?php echo $key ?>"><?php echo $text ?></span><?php endif;
+        $firstLoop = false;
+    endforeach
+?>
+</span>

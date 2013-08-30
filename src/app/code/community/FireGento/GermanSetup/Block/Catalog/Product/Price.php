@@ -59,7 +59,7 @@ class FireGento_GermanSetup_Block_Catalog_Product_Price
         if (!in_array($this->getTemplate(), $this->_tierPriceDefaultTemplates)) {
             $htmlObject = new Varien_Object();
             $htmlObject->setParentHtml($html);
-            $htmlTemplate = $this->getLayout()->createBlock('core/template')
+            $htmlTemplate = $this->getLayout()->createBlock('germansetup/catalog_product_price_info')
                 ->setTemplate('germansetup/price_info.phtml')
                 ->setFormattedTaxRate($this->getFormattedTaxRate())
                 ->setIsIncludingTax($this->isIncludingTax())
