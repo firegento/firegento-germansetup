@@ -153,7 +153,7 @@ class FireGento_GermanSetup_Block_Catalog_Product_Price
     public function isIncludingTax()
     {
         if (!$this->getData('is_including_tax')) {
-            $this->setData('is_including_tax', Mage::getStoreConfig('tax/display/type'));
+            $this->setData('is_including_tax', Mage::getSingleton('tax/config')->getPriceDisplayType());
         }
 
         return $this->getData('is_including_tax');
