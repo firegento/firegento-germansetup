@@ -46,13 +46,27 @@ $agreements = $this->getAgreements();
 <form action="" id="checkout-agreements" onsubmit="return false;">
 <ol class="checkout-agreements">
 <?php foreach ($agreements as $agreement): ?>
+    <?php
+        $checkBoxLabel = $agreement->getIsHtml() ? $agreement->getCheckboxText() : $this->htmlEscape($agreement->getCheckboxText());
+        $matches = array();
+        if($matched = preg_match('/\[([^\]]*)\]/i', $checkBoxLabel, $matches)) {
+            $linkMarkup = $matches[0];
+            $linkLabel  = $matches[1];
+            $clickableLink = '<a href="'.$this->getUrl('germansetup/frontend/agreements', array('id' => $agreement->getId())).'" target="agreement-'.$agreement->getId().'" onclick="window.open(\''.$this->getUrl('germansetup/frontend/agreements', array('id' => $agreement->getId())).'\', \'agreement-'.$agreement->getId().'\', \'width=600,height=600,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes\').focus(); return false;">'.$linkLabel.'</a>';
+            $checkBoxLabel = str_replace($linkMarkup, $clickableLink, $checkBoxLabel);
+        }
+    ?>
     <li>
         <p class="agree">
             <?php if($agreement->getIsRequired()): ?>
                 <input type="checkbox" id="agreement-<?php echo $agreement->getId()?>" name="agreement[<?php echo $agreement->getId()?>]" value="1" title="<?php echo $this->htmlEscape($agreement->getCheckboxText()) ?>" class="checkbox" />
             <?php endif; ?>
-            <label <?php if($agreement->getIsRequired()): ?>for="agreement-<?php echo $agreement->getId()?>"<?php endif; ?>><?php echo $agreement->getIsHtml() ? $agreement->getCheckboxText() : $this->escapeHtml($agreement->getCheckboxText()) ?></label>
-            <a href="<?php echo $helper->getAgreementUrl($agreement) ?>" onclick="window.open(this.href, '', 'width=600,height=600,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes').focus(); return false;"><?php echo $this->__('[Show]') ?></a>
+            <label <?php if($agreement->getIsRequired()): ?>for="agreement-<?php echo $agreement->getId()?>"<?php endif; ?>>
+				<?php echo $checkBoxLabel ?>
+			</label>
+			<?php if(!$matched): ?>
+				<a href="<?php echo $helper->getAgreementUrl($agreement) ?>" onclick="window.open(this.href, '', 'width=600,height=600,left=0,top=0,location=no,status=yes,scrollbars=yes,resizable=yes').focus(); return false;"><?php echo $this->__('[Show]') ?></a>
+			<?php endif; ?>
         </p>
     </li>
 <?php endforeach ?>
