@@ -152,11 +152,18 @@ class FireGento_GermanSetup_Model_Observer
      * Get the categories of the current product
      *
      * @param  Mage_Catalog_Model_Product $product Product
-     * @return array                      Categories
+     * @return string                              Keywords
      */
     protected function _getCategoryKeywords($product)
     {
         $categories = $product->getCategoryIds();
+
+        //Check for empty categories
+        if (true === empty($categories)) {
+            return array();
+        }
+
+        //If product categories were given fetch their names and build the keyword string
         $categoryArr = $this->_fetchCategoryNames($categories);
         $keywords = $this->_buildKeywords($categoryArr);
 
@@ -221,6 +228,12 @@ class FireGento_GermanSetup_Model_Observer
     protected function _buildKeywords($categoryTypes)
     {
         $keywords = '';
+
+        //Check for empty category types
+        if (true === empty($categoryTypes)) {
+            return $keywords;
+        }
+
         foreach ($categoryTypes as $categories) {
             $keywords .= implode(', ', $categories);
         }
