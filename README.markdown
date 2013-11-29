@@ -1,3 +1,12 @@
+Umzug / Deprecated
+==================
+
+Diese Extension wird nicht mehr weiterentwickelt und sollte daher nicht mehr verwendet werden. Bitte verwenden Sie stattdessen
+die offizielle Weiterentwicklung dieses Projekts: [FireGento_MageSetup](https://github.com/firegento/firegento-magesetup).
+
+Wenn Sie von FireGento_GermanSetup zu FireGento_MageSetup wechseln möchten, löschen Sie einfach die Dateien von FireGento_GermanSetup
+und installieren Sie die neuen von FireGento_MageSetup. Sofern Sie Composer verwenden, genügt ein Austausch in Ihrer composer.json - Datei.
+
 FireGento_GermanSetup
 =====================
 German Setup konfiguriert einen Shop für den deutschen Markt.
